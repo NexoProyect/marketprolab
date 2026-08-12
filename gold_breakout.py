@@ -359,16 +359,26 @@ def plot_top5(curves: list, baseline=None, path: str = "top5.png",
         ax.plot(curve.index, curve.values, color=t["ink_muted"], linewidth=1.4,
                 linestyle=(0, (5, 3)), zorder=2, label=f"{name} (indicator defaults)")
 
+    ends = []
     for k, (curve, name, _stats) in enumerate(curves):
         colour = t["series"][k % len(t["series"])]
         ax.plot(curve.index, curve.values, color=colour, linewidth=1.9, zorder=3,
                 label=f"#{k + 1}  {name}")
-        ax.annotate(
-            f"{curve.iloc[-1]:,.0f}",
-            xy=(curve.index[-1], curve.iloc[-1]),
-            xytext=(7, 0), textcoords="offset points",
-            color=colour, fontsize=9, fontweight="600", va="center",
-        )
+        ends.append({"value": float(curve.iloc[-1]), "y": float(curve.iloc[-1]),
+                     "colour": colour, "x": curve.index[-1]})
+
+    # Nudge the end labels apart so they stay readable when curves finish
+    # within a few dollars of each other.
+    span = ax.get_ylim()[1] - ax.get_ylim()[0]
+    gap = span * 0.030
+    ends.sort(key=lambda e: e["y"])
+    for previous, current in zip(ends, ends[1:]):
+        if current["y"] - previous["y"] < gap:
+            current["y"] = previous["y"] + gap
+    for end in ends:
+        ax.annotate(f"{end['value']:,.0f}", xy=(end["x"], end["y"]), xytext=(9, 0),
+                    textcoords="offset points", color=end["colour"], fontsize=9,
+                    fontweight="600", va="center", annotation_clip=False)
 
     ax.axhline(INITIAL_BALANCE, color=t["ink_muted"], linewidth=1.0,
                linestyle=(0, (2, 3)), alpha=0.8, zorder=1)
@@ -376,7 +386,7 @@ def plot_top5(curves: list, baseline=None, path: str = "top5.png",
     ax.yaxis.set_major_formatter(plt.matplotlib.ticker.FuncFormatter(
         lambda v, _: f"{v:,.0f}"))
     plotting._dates(ax)
-    ax.margins(x=0.06)
+    ax.margins(x=0.07)
     ax.legend(loc="upper left", ncols=1, fontsize=9)
 
     plotting._finish(fig, "Gold Breakout Trader - five best configurations", subtitle)
@@ -384,6 +394,13 @@ def plot_top5(curves: list, baseline=None, path: str = "top5.png",
     fig.savefig(path, dpi=140, bbox_inches="tight")
     print(f"\nChart: {os.path.abspath(path)}")
     return path
+
+
+def save_curves(curves: list, baseline, path: str) -> None:
+    """Keep the winners' curves so the chart can be redrawn without re-running."""
+    frame = pd.DataFrame({name: curve for curve, name, _ in curves})
+    frame["__baseline__"] = baseline[0]
+    frame.to_parquet(path)
 
 
 # ════════════════════════════════════════════════════════════ MAIN
@@ -464,7 +481,9 @@ def main() -> int:
     subtitle = (f"{SYMBOL} {TIMEFRAME} · {bars.index[0].date()} to {bars.index[-1].date()} · "
                 f"{total} configurations tested · real spread, slippage, swap and latency")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    plot_top5(curves, baseline=(baseline.equity_curve, "box 10 · TP1 · SL opposite"),
+    reference = (baseline.equity_curve, "box 10 · TP1 · SL opposite")
+    save_curves(curves, reference, os.path.join(OUTPUT_DIR, "top5_curves.parquet"))
+    plot_top5(curves, baseline=reference,
               path=os.path.join(OUTPUT_DIR, "top5_equity.png"), subtitle=subtitle)
 
     opt.to_html(os.path.join(OUTPUT_DIR, "sweep.html"),
