@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "marketprolab"
+version = "0.1.0"
+description = "Test, optimize and visualise trading strategies under real broker conditions: configurable instruments, spread, slippage, latency, optimization, Monte Carlo and HTML reports"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Johangel" }]
+keywords = [
+    "backtesting", "metatrader5", "mt5", "trading", "forex", "cfd",
+    "quant", "montecarlo", "walk-forward", "trading-strategies", "reports",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "numpy>=1.23",
+    "pandas>=2.0",
+    "matplotlib>=3.6",
+]
+
+[project.optional-dependencies]
+# El paquete MetaTrader5 sólo existe en Windows; por eso va aparte.
+mt5 = ["MetaTrader5>=5.0.40; platform_system=='Windows'"]
+parquet = ["pyarrow>=12"]
+dev = [
+    "pytest>=7",
+    "pytest-cov",
+    "ruff",
+    "build",
+    "twine",
+]
+all = [
+    "MetaTrader5>=5.0.40; platform_system=='Windows'",
+    "pyarrow>=12",
+]
+
+[project.urls]
+Homepage = "https://github.com/NexoProyect/marketprolab"
+Documentation = "https://github.com/NexoProyect/marketprolab/tree/main/docs"
+Issues = "https://github.com/NexoProyect/marketprolab/issues"
+
+[tool.setuptools]
+packages = ["marketprolab"]
+
+[tool.setuptools.package-data]
+marketprolab = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+# Se omite "UP": la librería mantiene compatibilidad con Python 3.9 y usa
+# typing.Optional/Dict en vez de la sintaxis PEP 604/585.
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E741", "B008"]
