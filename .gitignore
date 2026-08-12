@@ -20,6 +20,7 @@ htmlcov/
 .cache/
 results/
 resultados/
+*.log
 charts/
 symbols/
 *.parquet
