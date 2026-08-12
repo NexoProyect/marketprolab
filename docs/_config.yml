@@ -1,0 +1,14 @@
+title: marketprolab
+description: >-
+  Test, optimize and visualise trading strategies in Python,
+  under your broker's real conditions.
+theme: jekyll-theme-cayman
+show_downloads: false
+github:
+  repository_url: https://github.com/NexoProyect/marketprolab
+
+# Only the documentation pages are published; everything else in the repo is
+# served from GitHub itself.
+exclude:
+  - "*.py"
+  - "*.toml"

@@ -1,3 +1,10 @@
+---
+title: Usage guide
+description: From install to Monte Carlo
+---
+
+[Home](index.md) · [Packaging](packaging.md) · [Source](https://github.com/NexoProyect/marketprolab) · [Wiki](https://github.com/NexoProyect/marketprolab/wiki)
+
 # marketprolab - usage guide
 
 A backtesting library that reproduces **your broker's real conditions**,
@@ -875,7 +882,7 @@ marketprolab
 └── presets     xauusd, forex_major, index_cfd, crypto, energy
 ```
 
-Runnable examples live in [`examples/`](../examples):
+Runnable examples live in [`examples/`](https://github.com/NexoProyect/marketprolab/tree/main/examples):
 
 | File | What it shows |
 |---|---|

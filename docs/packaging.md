@@ -1,3 +1,10 @@
+---
+title: Packaging and publishing
+description: How the library is assembled and shipped
+---
+
+[Home](index.md) · [Usage guide](usage.md) · [Source](https://github.com/NexoProyect/marketprolab)
+
 # How the library is put together, how to install it, and how to publish it
 
 Two things: **how a folder of `.py` files becomes an installable library**, and
