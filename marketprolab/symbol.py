@@ -21,6 +21,21 @@ from .enums import (
 )
 from .sessions import SessionSpec
 
+# MT5's SYMBOL_SWAP_MODE enumeration, mapped to this library's swap types.
+# Getting it wrong is expensive: on a one-ounce gold contract, reading -531.6 as
+# money instead of points overstates the overnight cost a thousandfold.
+MT5_SWAP_MODES = {
+    0: SwapType.POINTS,          # DISABLED - the values are zero anyway
+    1: SwapType.POINTS,          # POINTS
+    2: SwapType.MONEY,           # CURRENCY_SYMBOL
+    3: SwapType.MARGIN_CURRENCY,  # CURRENCY_MARGIN
+    4: SwapType.MONEY,           # CURRENCY_DEPOSIT
+    5: SwapType.PERCENT_ANNUAL,  # INTEREST_CURRENT
+    6: SwapType.PERCENT_ANNUAL,  # INTEREST_OPEN
+    7: SwapType.PERCENT_ANNUAL,  # REOPEN_CURRENT
+    8: SwapType.PERCENT_ANNUAL,  # REOPEN_BID
+}
+
 
 @dataclass
 class SymbolSpec:
@@ -341,10 +356,7 @@ class SymbolSpec:
             0: ExecutionMode.REQUEST, 1: ExecutionMode.INSTANT,
             2: ExecutionMode.MARKET, 3: ExecutionMode.EXCHANGE,
         }
-        swap_map = {
-            0: SwapType.POINTS, 1: SwapType.MONEY, 2: SwapType.MARGIN_CURRENCY,
-            5: SwapType.PERCENT_ANNUAL, 6: SwapType.PERCENT_CURRENT,
-        }
+        swap_map = MT5_SWAP_MODES
 
         filling = []
         mode = getattr(info, "filling_mode", 0)
@@ -385,9 +397,11 @@ class SymbolSpec:
             volume_limit=float(getattr(info, "volume_limit", 0.0)),
             spread_points=float(getattr(info, "spread", 0)),
             spread_float=bool(getattr(info, "spread_float", True)),
-            swap_type=swap_map.get(int(getattr(info, "swap_mode", 0)), SwapType.POINTS),
-            swap_long=float(getattr(info, "swap_long", 0.0)),
-            swap_short=float(getattr(info, "swap_short", 0.0)),
+            swap_type=swap_map.get(int(getattr(info, "swap_mode", 1)), SwapType.POINTS),
+            swap_long=(0.0 if int(getattr(info, "swap_mode", 1)) == 0
+                       else float(getattr(info, "swap_long", 0.0))),
+            swap_short=(0.0 if int(getattr(info, "swap_mode", 1)) == 0
+                        else float(getattr(info, "swap_short", 0.0))),
             swap_rate_days={0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 0, 6: 0},
             leverage=leverage,
             margin_initial_rate=float(getattr(info, "margin_initial", 0.0)) or 1.0,

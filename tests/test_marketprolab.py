@@ -444,3 +444,23 @@ def test_dark_theme_report(spec, trending_bars, tmp_path):
     result = bt.run()
     result.to_html(str(tmp_path / "dark.html"), theme="dark")
     assert plotting._ACTIVE == "light"   # the theme is restored afterwards
+
+
+def test_mt5_swap_mode_mapping():
+    """MT5 mode 1 is POINTS, not money.
+
+    Reading it as money turned a one-ounce gold contract's overnight cost from
+    -0.53 USD into -531.60 USD - a thousandfold error that quietly destroys any
+    backtest holding positions overnight.
+    """
+    from marketprolab.symbol import MT5_SWAP_MODES
+
+    assert MT5_SWAP_MODES[1] is SwapType.POINTS
+    assert MT5_SWAP_MODES[2] is SwapType.MONEY
+    assert MT5_SWAP_MODES[5] is SwapType.PERCENT_ANNUAL
+
+    gold = SymbolSpec(symbol="XAUUSD", digits=3, contract_size=1.0,
+                      swap_type=MT5_SWAP_MODES[1], swap_long=-531.6)
+    nightly = gold.swap_cost(1, 1.0, 4000.0, datetime(2024, 1, 2))
+    assert nightly == pytest.approx(-0.5316)          # cents, not hundreds
+    assert abs(nightly) * 365 / 4000 < 0.10           # under 10% annualised
