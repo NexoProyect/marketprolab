@@ -76,6 +76,8 @@ from .enums import (
     TradeMode,
 )
 from .execution import (
+    CallableSlippage,
+    CallableSpread,
     DataSpread,
     FixedLatency,
     FixedSlippage,
@@ -121,6 +123,7 @@ __all__ = [
     "MarginMode", "PriceType", "SwapType", "TradeMode",
     # execution models
     "FixedSpread", "DataSpread", "RandomSpread", "SessionSpread", "VolatilitySpread",
+    "CallableSpread", "CallableSlippage",
     "NoSlippage", "FixedSlippage", "RandomSlippage", "VolatilitySlippage", "GapSlippage",
     "FixedLatency", "RandomLatency",
     # data

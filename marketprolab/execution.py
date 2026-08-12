@@ -232,8 +232,30 @@ class RandomLatency(LatencyModel):
 
 
 # --------------------------------------------------------------------- HELPERS
+@dataclass
+class CallableSpread(SpreadModel):
+    """Wraps a plain ``func(bar, spec) -> points`` as a spread model."""
+
+    func: object = None
+
+    def reset(self, rng): self.rng = rng
+    def __call__(self, bar, spec) -> float:
+        return float(self.func(bar, spec))
+
+
+@dataclass
+class CallableSlippage(SlippageModel):
+    """Wraps a plain ``func(bar, spec, side, volume, reason) -> points``."""
+
+    func: object = None
+
+    def reset(self, rng): self.rng = rng
+    def __call__(self, bar, spec, side, volume, reason) -> float:
+        return float(self.func(bar, spec, side, volume, reason))
+
+
 def make_spread(value) -> SpreadModel:
-    """Accepts a number (fixed points), ``"data"``, or a ready-made model."""
+    """Accepts a number (fixed points), ``"data"``, a callable, or a model."""
     if isinstance(value, SpreadModel):
         return value
     if value is None:
@@ -243,22 +265,18 @@ def make_spread(value) -> SpreadModel:
             return DataSpread()
         raise ValueError(f"Unknown spread model: {value}")
     if callable(value):
-        wrapper = SpreadModel()
-        wrapper.__call__ = value  # type: ignore[assignment]
-        return wrapper
+        return CallableSpread(value)
     return FixedSpread(float(value))
 
 
 def make_slippage(value) -> SlippageModel:
-    """Accepts a number (fixed points), ``None``, or a ready-made model."""
+    """Accepts a number (fixed points), ``None``, a callable, or a model."""
     if isinstance(value, SlippageModel):
         return value
     if value is None:
         return NoSlippage()
-    if callable(value) and not isinstance(value, type):
-        wrapper = SlippageModel()
-        wrapper.__call__ = value  # type: ignore[assignment]
-        return wrapper
+    if callable(value):
+        return CallableSlippage(value)
     return FixedSlippage(float(value))
 
 

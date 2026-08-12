@@ -1,0 +1,149 @@
+{
+  "symbol": "EURUSDz",
+  "name": "Euro vs US Dollar",
+  "category": "Zero",
+  "asset_type": "cfd",
+  "description": "Euro vs US Dollar",
+  "digits": 5,
+  "contract_size": 100000.0,
+  "margin_currency": "EUR",
+  "profit_currency": "USD",
+  "base_currency": "EUR",
+  "calc_mode": "forex",
+  "chart_mode": "bid",
+  "tick_size": 1e-05,
+  "execution": "market",
+  "gtc_mode": "gtc",
+  "filling_modes": [
+    "fok",
+    "ioc"
+  ],
+  "expiration_modes": [
+    "all"
+  ],
+  "allowed_orders": [
+    "BUY",
+    "SELL",
+    "BUY_LIMIT",
+    "SELL_LIMIT",
+    "BUY_STOP",
+    "SELL_STOP",
+    "BUY_STOP_LIMIT",
+    "SELL_STOP_LIMIT"
+  ],
+  "trade_mode": "full",
+  "stops_level": 0,
+  "freeze_level": 0,
+  "volume_min": 0.01,
+  "volume_max": 200.0,
+  "volume_step": 0.01,
+  "volume_limit": 0.0,
+  "spread_points": 2.0,
+  "spread_float": true,
+  "commission_per_lot": 3.5,
+  "commission_per_deal": 0.0,
+  "commission_percent": 0.0,
+  "swap_type": "money",
+  "swap_long": -5.8,
+  "swap_short": 0.0,
+  "swap_rate_days": {
+    "0": 1,
+    "1": 1,
+    "2": 3,
+    "3": 1,
+    "4": 1,
+    "5": 0,
+    "6": 0
+  },
+  "swap_rollover_hour": 0,
+  "swap_year_days": 360,
+  "leverage": 100,
+  "margin_initial_rate": 1.0,
+  "margin_maintenance_rate": 1.0,
+  "margin_initial_per_lot": null,
+  "margin_maintenance_per_lot": null,
+  "margin_hedged_per_lot": 0.0,
+  "max_leverage": null,
+  "quote_sessions": {
+    "6": [
+      [
+        1320,
+        1440
+      ]
+    ],
+    "0": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "1": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "2": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "3": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "4": [
+      [
+        0,
+        1260
+      ]
+    ]
+  },
+  "trade_sessions": {
+    "6": [
+      [
+        1320,
+        1440
+      ]
+    ],
+    "0": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "1": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "2": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "3": [
+      [
+        0,
+        1440
+      ]
+    ],
+    "4": [
+      [
+        0,
+        1260
+      ]
+    ]
+  },
+  "timezone": "UTC",
+  "expiration_date": null,
+  "position_limit": 0.0,
+  "pending_orders_limit": 0,
+  "country_restrictions": [],
+  "notes": ""
+}

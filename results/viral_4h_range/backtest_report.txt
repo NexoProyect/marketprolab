@@ -1,0 +1,35 @@
+Symbol: EURUSDz | Broker: Exness Zero (EURUSDz) | Strategy: FourHourRangeBreakout | Params: {'allow_rearm': False, 'atr_period': 14, 'atr_sl_mult': 1.5, 'flat_at_hour_ny': 17, 'invalidate_minutes': 75, 'max_range_points': 0, 'min_range_points': 0, 'monitor_until_hour_ny': 17, 'one_trade_per_day': True, 'range_hours': 4, 'range_start_hour_ny': 0, 'risk_pct': 0.5, 'rr': 1.5, 'sl_buffer_points': 20, 'sl_mode': 'range', 'tp_mode': 'opposite'}
+Elapsed: 16.13s
+===================== BACKTEST RESULTS =====================
+Period               : 2023-08-08 04:40:00  ->  2026-08-12 04:35:00
+Duration / bars      : 1099 days 23:55:00  /  224,401
+--------------------------- Account -------------------------
+Initial balance      :      10,000.00
+Final equity         :       1,817.75
+Net profit           :      -8,182.25   (-81.82%)
+CAGR                 :        -43.23%
+Max drawdown         :      -8,425.08   (-82.25%)
+Longest drawdown     : 1090 days 17:05:00
+Recovery factor      :         -0.97
+---------------------------- Risk ---------------------------
+Sharpe / Sortino     :   -3.93 / -0.96
+Calmar / SQN         :   -0.53 / -6.06
+Annual volatility    :         19.83%
+Ulcer index          :          57.95
+Exposure             :          2.72%
+---------------------------- Trades -------------------------
+Trades               :            606   (312 long / 294 short)
+Win rate             :         14.03%   (85/606)
+Profit factor        :           0.49
+Expectancy per trade :         -13.50
+Avg win / avg loss   :      93.74 / -31.00   (payoff 3.02)
+Largest win / loss   :     435.84 / -81.72
+Max win/loss streak  :          3 / 29
+Average duration     : 0 days 01:00:06.435643564  (10.1 bars)
+Trades per month     :           16.8
+---------------------------- Costs --------------------------
+Commission           :       3,065.23
+Swap                 :           0.00
+Average slippage     :       2.76 points
+Exits by reason      : {'SL': 517, 'TP': 78, 'CLIENT': 11}
+=============================================================
