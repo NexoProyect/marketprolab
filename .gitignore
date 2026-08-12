@@ -18,8 +18,10 @@ htmlcov/
 
 # Proyecto
 .cache/
+results/
 resultados/
 charts/
+symbols/
 *.parquet
 data/*.csv
 !data/README.md
