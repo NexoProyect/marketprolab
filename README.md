@@ -94,6 +94,7 @@ RAM, and it derives each bar's real spread from `ask - bid`.
 ## Documentation
 
 Full docs: **https://nexoproyect.github.io/marketprolab/**
+Recipes, FAQ and troubleshooting: **[the wiki](https://github.com/NexoProyect/marketprolab/wiki)**
 
 - [**Usage guide**](docs/usage.md) - from install to Monte Carlo, everything in
   between, and a section on how the simulation works inside.
